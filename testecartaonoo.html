@@ -73,23 +73,23 @@
   </head>
 
   <body>
-    <!-- AR Scene -->
     <a-scene mindar-image="imageTargetSrc: targets_v3.mind;" color-space="sRGB"
              renderer="colorManagement: true, physicallyCorrectLights"
              vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
 
       <a-assets>
-        <!-- 3D model -->
         <a-asset-item id="avatarModel" src="LogoNoo_v2.glb"></a-asset-item>
-
-        <!-- Video asset -->
         <video id="bgVideo" src="AnimatedBG.mp4" preload="auto" muted playsinline webkit-playsinline loop></video>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
+      <!-- ✅ Lights added here -->
+      <a-entity light="type: ambient; intensity: 0.5;"></a-entity>
+      <a-entity light="type: directional; intensity: 0.9; castShadow: false;" position="1 2 1"></a-entity>
+      <a-entity light="type: directional; intensity: 0.5;" position="-1 2 -1"></a-entity>
+
       <a-entity mindar-image-target="targetIndex: 0">
-        <!-- Looping video instead of image -->
         <a-video
           src="#bgVideo"
           width="1"
@@ -98,23 +98,21 @@
           rotation="0 0 0">
         </a-video>
 
-        <!-- 3D model -->
         <a-gltf-model
           id="model"
           rotation="90 0 0"
-          position="0 0 0.2"
+          position="0 0 1"
           scale="2 2 2"
           src="#avatarModel"
-          animation__rotate="property: rotation; to: 450 0 0; dur: 10000; easing: linear; loop: true"
+          animation__rotate="property: rotation; to: 90 360 360; dur: 10000; easing: linear; loop: true"
           animation__scale="property: scale; from: 2 2 2; to: 4 4 4; dur: 4000; dir: alternate; easing: easeInOutSine; loop: true"
         ></a-gltf-model>
       </a-entity>
     </a-scene>
 
-    <!-- Link Button -->
+    <!-- UI -->
     <button id="link-button">Links NOO Works</button>
 
-    <!-- Menu Overlay -->
     <div id="menu">
       <button id="close-menu">✕</button>
       <button class="menu-button" onclick="window.open('https://noo.com.br/', '_blank')">Website</button>
@@ -129,7 +127,6 @@
         const closeBtn = document.getElementById('close-menu');
         const bgVideo = document.getElementById('bgVideo');
 
-        // Force play when video is ready
         bgVideo.addEventListener('canplaythrough', () => {
           bgVideo.muted = true;
           bgVideo.playsInline = true;
@@ -139,7 +136,6 @@
           });
         });
 
-        // Fallback: try to play after a small delay
         setTimeout(() => {
           if (bgVideo.paused) {
             bgVideo.play().catch((e) => {});
