@@ -85,7 +85,7 @@
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <!-- ✅ Lights added here -->
-      <a-entity light="type: ambient; intensity: 0.5;"></a-entity>
+      <a-entity light="type: ambient; intensity: 0.75;"></a-entity>
       <a-entity light="type: directional; intensity: 0.9; castShadow: false;" position="1 2 1"></a-entity>
       <a-entity light="type: directional; intensity: 0.5;" position="-1 2 -1"></a-entity>
 
@@ -101,11 +101,11 @@
         <a-gltf-model
           id="model"
           rotation="90 0 0"
-          position="0 0 0.2"
-          scale="1.5 1.5 1.5"
+          position="0 0.2 0"
+          scale="2.5 2.5 2.5"
           src="#avatarModel"
           animation__rotate="property: rotation; to: 450 0 0; dur: 10000; easing: linear; loop: true"
-          animation__scale="property: scale; from: 1.5 1.5 1.5; to: 2 2 2; dur: 4000; dir: alternate; easing: easeInOutSine; loop: true"
+          animation__scale="property: scale; from: 2.5 2.5 2.5; to: 3 3 3; dur: 4000; dir: alternate; easing: easeInOutSine; loop: true"
         ></a-gltf-model>
       </a-entity>
     </a-scene>
