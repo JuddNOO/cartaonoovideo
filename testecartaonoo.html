@@ -83,33 +83,29 @@
         <a-asset-item id="avatarModel" src="LogoNoo_v2.glb"></a-asset-item>
 
         <!-- Video asset -->
-        <video id="bgVideo" src="AnimatedBG.mp4" preload="auto" autoplay loop muted playsinline webkit-playsinline></video>
+        <video id="bgVideo" src="AnimatedBG.mp4" preload="auto" muted playsinline webkit-playsinline loop></video>
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <a-entity mindar-image-target="targetIndex: 0">
-        <!-- Replaced plane with looping video -->
+        <!-- Looping video instead of image -->
         <a-video
           src="#bgVideo"
           width="1"
           height="0.552"
           position="0 0 0"
-          rotation="0 0 0"
-          autoplay="true"
-          loop="true"
-          muted="true"
-          playsinline="true">
+          rotation="0 0 0">
         </a-video>
 
         <!-- 3D model -->
         <a-gltf-model
           id="model"
           rotation="90 0 0"
-          position="0 0 1"
+          position="0 0 0.2"
           scale="2 2 2"
           src="#avatarModel"
-          animation__rotate="property: rotation; to: 90 360 360; dur: 10000; easing: linear; loop: true"
+          animation__rotate="property: rotation; to: 450 0 0; dur: 10000; easing: linear; loop: true"
           animation__scale="property: scale; from: 2 2 2; to: 4 4 4; dur: 4000; dir: alternate; easing: easeInOutSine; loop: true"
         ></a-gltf-model>
       </a-entity>
@@ -131,6 +127,24 @@
         const linkBtn = document.getElementById('link-button');
         const menu = document.getElementById('menu');
         const closeBtn = document.getElementById('close-menu');
+        const bgVideo = document.getElementById('bgVideo');
+
+        // Force play when video is ready
+        bgVideo.addEventListener('canplaythrough', () => {
+          bgVideo.muted = true;
+          bgVideo.playsInline = true;
+          bgVideo.loop = true;
+          bgVideo.play().catch((e) => {
+            console.warn('Autoplay failed:', e);
+          });
+        });
+
+        // Fallback: try to play after a small delay
+        setTimeout(() => {
+          if (bgVideo.paused) {
+            bgVideo.play().catch((e) => {});
+          }
+        }, 1000);
 
         linkBtn.addEventListener('click', () => {
           menu.style.display = 'flex';
